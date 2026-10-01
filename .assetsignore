@@ -1,8 +1,10 @@
-# Not part of the public site
-.git
-.assetsignore
 wrangler.jsonc
+.assetsignore
+.git
+.gitignore
+.wrangler
+node_modules
 package.json
 package-lock.json
-node_modules
-about-reference-rose.html
+about-reference*.html
+*.md
