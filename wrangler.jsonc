@@ -1,0 +1,9 @@
+{
+  // Static site on Cloudflare Workers: no build step, files are served as-is.
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "sara-mohamed",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./"
+  }
+}
