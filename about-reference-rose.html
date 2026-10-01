@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>About page reference — rose and charcoal</title>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
+<style>
+body{margin:0;background:#fdf9f9;padding:20px}
+.page{max-width:760px;margin:0 auto}
+.wr{font-family:Urbanist,system-ui,sans-serif;color:#262222;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:20px;background-color:#fdf9f9;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='2' cy='2' r='1' fill='%23eadada'/%3E%3C/svg%3E")}
+.sf{font-family:"Instrument Serif",Georgia,serif;font-weight:400}
+.mu{color:#746a6a}
+.h{font-family:"Instrument Serif",Georgia,serif;font-size:28px;line-height:1;margin:0 0 16px;font-weight:400}
+.pc{position:relative}
+.back{position:absolute;inset:0;background:#f1bcc6;border-radius:8px;transition:transform .9s cubic-bezier(.3,1.4,.5,1)}
+.on .back{transform:rotate(2.5deg) translate(10px,8px)}
+.card{position:relative;background:#f6ebea;border-radius:8px;padding:22px;box-shadow:0 18px 36px -22px rgba(38,34,34,.35)}
+.post{transition:transform .9s cubic-bezier(.3,1.4,.5,1)}
+.on .post{transform:rotate(-1deg)}
+.tk{position:relative;display:flex;align-items:center;gap:10px;background:#f6ebea;padding:12px 14px 12px 34px;font-size:13.5px;border-radius:6px;cursor:pointer;color:inherit;text-decoration:none;opacity:0;transform:translateX(16px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1),background .25s}
+.on .tk{opacity:1;transform:none}
+.tk::before{content:"";position:absolute;left:12px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:#fdf9f9;box-shadow:inset 0 0 0 1px #eadada}
+.tk::after{content:"";position:absolute;left:28px;top:8px;bottom:8px;border-left:1.5px dashed #eadada}
+.tk .ar{margin-left:auto;font-size:14px;transition:transform .25s}
+.tk:hover{background:#eedcdb}.tk:hover .ar{transform:translate(2px,-2px)}
+.tk.cta{background:#c44d64;color:#fff}.tk.cta::before{box-shadow:none}.tk.cta::after{border-color:rgba(255,255,255,.35)}
+.job{display:grid;grid-template-columns:110px 26px minmax(0,1fr);gap:0 14px}
+.y{font-family:"Instrument Serif",Georgia,serif;font-size:30px;line-height:1;color:#c44d64;text-align:right}
+.ym{font-size:11px;color:#746a6a;text-align:right;margin-top:4px}
+.bl{list-style:none;margin:10px 0 0;padding:0;font-size:13.5px;line-height:1.5}
+.bl li{position:relative;padding-left:18px;margin:5px 0}
+.bl li::before{content:"";position:absolute;left:0;top:.72em;width:9px;height:1.5px;background:#c44d64}
+.lo{width:30px;height:30px;border-radius:8px;background:#262222;color:#f1bcc6;display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+.jc{padding-bottom:26px;opacity:0;transform:translateY(10px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1)}
+.jc.on{opacity:1;transform:none}
+.cur{background:#fdf9f9;border:1px solid #ecdede;border-radius:14px;padding:14px 16px;margin:-6px 0 0 -4px}
+.dt{width:14px;height:14px;border-radius:50%;background:#fdf9f9;border:2px solid #262222;margin:8px auto 0;position:relative;z-index:2;transform:scale(0);transition:transform .35s cubic-bezier(.3,1.8,.5,1)}
+.dt.on{transform:none}
+.dt.now{background:#c44d64;border-color:#c44d64;box-shadow:0 0 0 6px rgba(196,77,100,.18)}
+.seal{position:absolute;right:16px;top:50%;margin-top:-44px;width:88px;height:88px;opacity:0;transform:scale(2) rotate(-40deg);transition:opacity .2s,transform .5s cubic-bezier(.5,1.7,.5,1)}
+.on .seal{opacity:1;transform:rotate(-10deg)}
+.tag{position:relative;display:inline-flex;align-items:center;background:#fdf9f9;border:1px solid #eadada;padding:7px 13px 7px 24px;font-size:12.5px;margin:0 6px 8px 0;border-radius:4px 16px 16px 4px;opacity:0;transform:translateY(8px) rotate(var(--r,0deg));transition:opacity .4s,transform .5s cubic-bezier(.3,1.6,.5,1),background .2s,color .2s;cursor:default}
+.tag::before{content:"";position:absolute;left:9px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;border:1.5px solid #d9a3ae}
+.on .tag{opacity:1;transform:rotate(var(--r,0deg))}
+.tag:hover{background:#c44d64;color:#fff;border-color:#c44d64}.tag:hover::before{border-color:#f1bcc6}
+.sw{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px dashed #e6d3d3;font-size:13.5px;opacity:0;transform:translateX(-10px);transition:opacity .4s,transform .5s cubic-bezier(.2,.7,.1,1)}
+.sw:last-child{border-bottom:0}
+.on .sw{opacity:1;transform:none}
+.ic{width:34px;height:34px;border-radius:8px;background:#262222;color:#f1bcc6;display:grid;place-items:center;font-size:13px;font-weight:700;transition:transform .3s}
+.sw:hover .ic{transform:rotate(-8deg)}
+.lv{font-size:11.5px;color:#746a6a}
+.lv:not(:empty){background:#fdf9f9;border:1px solid #ecdede;border-radius:20px;padding:3px 10px}
+.ls{background:#fff;padding:6px;border:3px dotted #f6ebea;outline:1px solid #ecdede;opacity:0;transform:scale(1.4) rotate(var(--r));transition:opacity .2s,transform .5s cubic-bezier(.5,1.7,.5,1)}
+.on .ls{opacity:1;transform:rotate(var(--r))}
+.ls{flex:1;display:flex}
+.ls>div{background:#f6ebea;padding:14px 16px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ls .ln{font-family:"Instrument Serif",Georgia,serif;font-size:30px;line-height:1}
+.ls .lvl{font-size:12px;color:#746a6a;margin-top:6px}
+@media (max-width:560px){.g2{grid-template-columns:1fr!important}.seal{display:none}
+.job{grid-template-columns:22px minmax(0,1fr);grid-template-areas:"dot yr" "dot jc";gap:0 12px}
+.job>div:nth-child(1){grid-area:yr;display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+.job>div:nth-child(1):empty{display:none}
+.job>div:nth-child(2){grid-area:dot}.job>.jc{grid-area:jc}
+.y{font-size:24px;text-align:left}.ym{text-align:left;margin-top:0}
+.cur{margin:0}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="page">
+<div class="wr" id="wr">
+  <div class="g2 sec" style="display:grid;grid-template-columns:1.6fr 1fr;gap:18px">
+    <div class="pc">
+      <div class="back"></div>
+      <div class="card post" style="min-height:220px;display:flex;flex-direction:column;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:46px;height:46px;border-radius:50%;background:#262222;color:#fdf9f9;display:grid;place-items:center;font-size:15px;font-weight:600;flex:none">SM</div>
+          <div><div class="sf" style="font-size:24px;line-height:1">Sara Mohamed</div><div class="mu" style="font-size:13px;margin-top:3px">Graphic Designer</div></div>
+        </div>
+        <p style="margin:28px 0 0;font-size:15px;line-height:1.6;max-width:46ch">Graphic designer with nearly 2 years of experience across marketing, branding, and medical and wellness brands. I care about clear concepts, consistent brands and files that print right the first time.</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <a class="tk" href="mailto:sara080009@gmail.com" style="transition-delay:.15s"><i class="ti ti-mail" aria-hidden="true"></i>sara080009@gmail.com<i class="ti ti-arrow-up-right ar" aria-hidden="true"></i></a>
+      <a class="tk" href="tel:+201066097393" style="transition-delay:.25s"><i class="ti ti-phone" aria-hidden="true"></i>+20 106 609 7393<i class="ti ti-arrow-up-right ar" aria-hidden="true"></i></a>
+      <a class="tk" href="https://www.behance.net/srnssr" target="_blank" rel="noopener" style="transition-delay:.35s"><i class="ti ti-brand-behance" aria-hidden="true"></i>Behance<i class="ti ti-arrow-up-right ar" aria-hidden="true"></i></a>
+      <a class="tk cta" href="#/contact" style="margin-top:auto;transition-delay:.45s"><i class="ti ti-mail" aria-hidden="true"></i>Contact me<i class="ti ti-arrow-right ar" aria-hidden="true"></i></a>
+    </div>
+  </div>
+
+  <div class="card sec" style="border-radius:14px;padding:24px 22px 18px">
+    <h2 class="h">Experience</h2>
+    <div style="position:relative" id="tl">
+      <svg id="road" width="26" style="position:absolute;top:0;overflow:visible" aria-hidden="true"><path id="rp" fill="none" stroke="#262222" stroke-width="1.6" stroke-linecap="round"/><g id="pencil" style="opacity:0"><path d="M-4 0 L4 0 L0 9 Z" fill="#f3d9b1" stroke="#262222" stroke-width="1"/><path d="M-1.5 6 L1.5 6 L0 9 Z" fill="#262222"/><rect x="-4" y="-28" width="8" height="28" fill="#c44d64" stroke="#262222" stroke-width="1"/><rect x="-4" y="-34" width="8" height="6" fill="#d9a3ae" stroke="#262222" stroke-width="1"/><rect x="-4" y="-40" width="8" height="6" rx="2" fill="#f1bcc6" stroke="#262222" stroke-width="1"/></g></svg>
+      <div class="job"><div><div class="y">2025</div><div class="ym">Oct 2025 – Oct 2026</div></div><div><div class="dt now"></div></div>
+        <div class="jc"><div class="cur"><div style="display:flex;align-items:center;gap:10px"><span class="lo">E</span><div><div style="font-size:15.5px;font-weight:600;line-height:1.2">Graphic Designer</div><div class="mu" style="font-size:13px">Everlast Medical Wellness — UAE</div></div></div>
+          <ul class="bl"><li>Social media and digital marketing content for a medical and wellness brand</li><li>Campaign visuals and promotional materials for aesthetic, wellness and beauty services</li><li>Visual consistency across many services and campaigns</li></ul></div></div></div>
+      <div class="job"><div><div class="y">2024</div><div class="ym">Dec 2024 – Aug 2025</div></div><div><div class="dt"></div></div>
+        <div class="jc"><div style="display:flex;align-items:center;gap:10px"><span class="lo">I</span><div><div style="font-size:15.5px;font-weight:600;line-height:1.2">Graphic Designer</div><div class="mu" style="font-size:13px">Inza Marketing Agency</div></div></div>
+          <ul class="bl"><li>Social media content for clients and marketing campaigns</li><li>Logos and visual identities aligned with client brand guidelines</li><li>Designs prepared for digital and print, across multiple brands at once</li></ul></div></div>
+      <div class="job"><div></div><div><div class="dt"></div></div>
+        <div class="jc" style="padding-bottom:8px"><div style="display:flex;align-items:center;gap:10px"><span class="lo">A</span><div><div style="font-size:15.5px;font-weight:600;line-height:1.2">Graphic Design Trainee</div><div class="mu" style="font-size:13px">Al-Amirya Printing Press</div></div></div>
+          <ul class="bl"><li>Hands-on print production and the design-to-print workflow</li><li>File preparation and production requirements for print materials</li></ul></div></div>
+    </div>
+  </div>
+
+  <div class="pc sec">
+    <div class="back" style="background:#d9a3ae"></div>
+    <div class="card post" style="background:#262222;color:#fbf3f3;padding-right:130px">
+      <svg class="seal" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="sc" d="M50,50 m-34,0 a34,34 0 1,1 68,0 a34,34 0 1,1 -68,0"/></defs><path d="M50 4 l6 8 10-3 3 10 10 2-2 10 8 7-6 8 4 10-10 3-1 10-10-1-6 9-8-6-9 5-4-10-10-1 1-10-9-5 6-8-5-9 9-5-1-10 10 0 3-10 10 3z" fill="#f1bcc6"/><circle cx="50" cy="50" r="38" fill="none" stroke="#262222" stroke-width="1"/><text font-family="Urbanist,sans-serif" font-size="7.5" font-weight="700" letter-spacing="1.8" fill="#262222"><textPath href="#sc">EXCELLENT ✦ WITH ✦ HONORS ✦</textPath></text><text x="50" y="57" text-anchor="middle" font-family="Instrument Serif,serif" font-size="22" font-style="italic" fill="#c44d64">2024</text></svg>
+      <h2 class="h">Education</h2>
+      <div style="font-size:15.5px;font-weight:600">Bachelor's in Graphic Design &amp; Advertising</div>
+      <div style="font-size:13px;color:#d9a3ae;margin-top:3px">Higher Institute of Applied Arts, 6th of October · Excellent with Honors</div>
+      <div class="sf" style="font-size:22px;font-style:italic;color:#f1bcc6;margin-top:10px">2024</div>
+    </div>
+  </div>
+
+  <div class="card sec" style="border-radius:14px">
+    <h2 class="h">Skills</h2>
+    <div id="tags"></div>
+  </div>
+
+  <div class="g2 sec" style="display:grid;grid-template-columns:1.3fr 1fr;gap:18px;align-items:stretch">
+    <div class="card" style="border-radius:14px">
+      <h2 class="h">Software</h2>
+      <div class="sw" style="transition-delay:.05s"><span class="ic">Ps</span><span>Adobe Photoshop</span><span class="lv">Advanced</span></div>
+      <div class="sw" style="transition-delay:.12s"><span class="ic">Ai</span><span>Adobe Illustrator</span><span class="lv">Advanced</span></div>
+      <div class="sw" style="transition-delay:.19s"><span class="ic">Ae</span><span>Adobe After Effects</span><span class="lv">Intermediate</span></div>
+      <div class="sw" style="transition-delay:.26s"><span class="ic">Pr</span><span>Adobe Premiere Pro</span><span class="lv">Intermediate</span></div>
+      <div class="sw" style="transition-delay:.33s"><span class="ic">Sb</span><span>Autodesk SketchBook</span><span class="lv"></span></div>
+    </div>
+    <div class="card" style="border-radius:14px;display:flex;flex-direction:column">
+      <h2 class="h">Languages</h2>
+      <div style="display:flex;flex-direction:column;gap:16px;flex:1;padding:4px 6px">
+        <div class="ls" style="--r:-1.5deg;transition-delay:.2s"><div><div class="ln">Arabic</div><div class="lvl">Native</div></div></div>
+        <div class="ls" style="--r:1.2deg;transition-delay:.4s"><div><div class="ln">English</div><div class="lvl">Intermediate</div></div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+const SK=["Branding & visual identity","Logo design","Social media design","Digital marketing design","Marketing campaigns","Print design","Creative concepts","Visual communication","Illustration & freehand drawing"];
+const R=[-2,1.5,-1,2,-1.5,1,-2,1.5,-1];
+document.getElementById('tags').innerHTML=SK.map((s,i)=>`<span class="tag" style="--r:${R[i]}deg;transition-delay:${i*.06}s">${s.replace('&','&amp;')}</span>`).join('');
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const road=document.getElementById('road'),rp=document.getElementById('rp'),pen=document.getElementById('pencil'),tl=document.getElementById('tl');
+function layout(){const dts=[...tl.querySelectorAll('.dt')],r=tl.getBoundingClientRect();
+ const ys=dts.map(d=>{const b=d.getBoundingClientRect();return b.top-r.top+b.height/2});const lj=[...tl.querySelectorAll('.jc')].pop(),lb=lj.getBoundingClientRect(),pb=parseFloat(getComputedStyle(lj).paddingBottom)||0;const end=Math.max(ys[ys.length-1]+24,lb.bottom-r.top-pb-40);
+ road.setAttribute('height',end+10);const x=13;let d=`M${x} ${ys[0]}`,py=ys[0];
+ [...ys.slice(1),end].forEach((y,i)=>{const m=(py+y)/2,w=i%2?-5:5;d+=` Q${x+w} ${m} ${x} ${y}`;py=y});
+ rp.setAttribute('d',d);road.style.left=tl.querySelector('.job').children[1].offsetLeft+'px';return ys}
+let run=0;
+function play(){const me=++run,secs=[...document.querySelectorAll('.sec')],ys=layout(),jcs=[...tl.querySelectorAll('.jc')],dts=[...tl.querySelectorAll('.dt')];
+ secs.forEach(s=>s.classList.remove('on'));jcs.forEach(j=>j.classList.remove('on'));dts.forEach(d=>d.classList.remove('on'));
+ const L=rp.getTotalLength(),endP=()=>{const p=rp.getPointAtLength(L);pen.setAttribute('transform',`translate(${p.x},${p.y}) rotate(180)`)};
+ if(RM){secs.forEach(s=>s.classList.add('on'));jcs.forEach(j=>j.classList.add('on'));dts.forEach(d=>d.classList.add('on'));rp.style.strokeDasharray='none';pen.style.opacity=1;endP();return}
+ rp.style.strokeDasharray=L;rp.style.strokeDashoffset=L;pen.style.opacity=0;
+ requestAnimationFrame(()=>secs[0].classList.add('on'));
+ setTimeout(()=>{if(me!==run)return;secs[1].classList.add('on');pen.style.opacity=1;const t0=performance.now(),D=2000,done=[];
+  (function f(t){if(me!==run)return;const k=Math.min(1,(t-t0)/D),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;rp.style.strokeDashoffset=L*(1-e);const p=rp.getPointAtLength(L*e);
+   pen.setAttribute('transform',`translate(${p.x},${p.y}) rotate(180)`);
+   ys.forEach((y,i)=>{if(!done[i]&&p.y>=y-2){done[i]=1;dts[i].classList.add('on');jcs[i].classList.add('on')}});
+   if(k<1)requestAnimationFrame(f);else secs.slice(2).forEach((s,i)=>setTimeout(()=>{if(me===run)s.classList.add('on')},150+i*350))})(performance.now())},700)}
+let started=false;const go=()=>{if(!started){started=true;play()}};
+document.fonts&&document.fonts.ready.then(go);setTimeout(go,600);
+</script>
+</body>
+</html>

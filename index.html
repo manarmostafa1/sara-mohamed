@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sara Mohamed — Graphic Designer</title>
+<meta name="description" content="Portfolio of Sara Mohamed, graphic designer based in Cairo. Branding, logo design, social media and print.">
+<link rel="icon" type="image/svg+xml" href="assets/icon/sara-icon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/icon/favicon-32.png">
+<link rel="apple-touch-icon" href="assets/icon/apple-touch-icon.png">
+<meta name="theme-color" content="#be4760">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#fdf9f9; --card:#f6ebea; --card-2:#eedcdb; --ink:#262222; --muted:#6b6161;
+  --line:#ecdede; --btn:#be4760; --btn-ink:#ffffff; --btn-hover:#a83b52; --foot:#262222; --foot-ink:#fbf3f3;
+  --frame:#ffffff; --focus:#be4760; --r:14px; --gap:10px;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#171414; --card:#211c1c; --card-2:#2c2525; --ink:#f6eeee; --muted:#b3a5a7;
+    --line:#3a3030; --btn:#f1a7b5; --btn-ink:#262222; --btn-hover:#f5bdc8; --foot:#0f0d0d; --foot-ink:#f6eeee;
+    --frame:#f6eeee; --focus:#f1a7b5; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#171414; --card:#211c1c; --card-2:#2c2525; --ink:#f6eeee; --muted:#b3a5a7;
+  --line:#3a3030; --btn:#f1a7b5; --btn-ink:#262222; --btn-hover:#f5bdc8; --foot:#0f0d0d; --foot-ink:#f6eeee;
+  --frame:#f6eeee; --focus:#f1a7b5; color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:inherit}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;min-height:100%;background:var(--bg);color:var(--ink);
+  font-family:"Urbanist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px;border-radius:6px}
+
+/* ---------- layout ---------- */
+.shell{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--gap);padding:var(--gap);min-height:100vh}
+.stage{position:sticky;top:calc(var(--gap) + env(safe-area-inset-top,0px));height:calc(100vh - var(--gap)*2 - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));
+  border-radius:var(--r);overflow:hidden;background:var(--card-2)}
+.main{min-width:0;display:flex;flex-direction:column;gap:var(--gap)}
+
+/* nav tab notched into the stage */
+.nav{position:absolute;top:0;left:0;z-index:5;background:var(--bg);display:flex;align-items:center;gap:18px;
+  padding:9px 18px 11px 12px;border-bottom-right-radius:var(--r)}
+.nav::before,.nav::after{content:"";position:absolute;width:var(--r);height:var(--r);
+  background:radial-gradient(circle at 100% 100%, transparent calc(var(--r) - .5px), var(--bg) var(--r))}
+.nav::before{top:0;right:calc(var(--r) * -1)}
+.nav::after{left:0;bottom:calc(var(--r) * -1)}
+.brand{display:flex;align-items:center;gap:7px;font-weight:700;letter-spacing:.02em;font-size:14px}
+.brand img{width:18px;height:18px;border-radius:5px;display:block;flex:none}
+.nav a.l{font-size:14px;color:var(--muted);font-weight:500;transition:color .2s}
+.nav a.l:hover,.nav a.l[aria-current="page"]{color:var(--ink)}
+.nav .cv{display:inline-flex;align-items:center;gap:5px;background:var(--btn);color:var(--btn-ink);font-size:13px;font-weight:500;line-height:13px;padding:5px 12px;margin:-1px 0;border-radius:999px;white-space:nowrap;transition:background .2s}
+.nav .cv:hover{background:var(--btn-hover)}
+.nav .cv:focus-visible{border-radius:999px}
+.nav .cv svg{width:13px;height:13px;flex:none;overflow:visible}
+.nav .cv .cva{transition:transform .2s}
+.nav .cv:hover .cva{transform:translateY(3.7px)} /* 3.7 icon units = 2px at 13px */
+.theme{border:0;background:none;padding:2px;cursor:pointer;display:grid;place-items:center;color:var(--ink)}
+.theme svg{width:15px;height:15px}
+
+/* slides */
+.slides{position:absolute;inset:0}
+.slide{position:absolute;inset:0;transition:transform .8s cubic-bezier(.7,0,.2,1)}
+.slide img{width:100%;height:100%;object-fit:cover}
+.arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;width:30px;height:30px;border-radius:8px;border:0;
+  background:rgba(255,255,255,.28);backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);color:#fff;cursor:pointer;display:grid;place-items:center;opacity:0;transition:opacity .25s}
+.stage:hover .arrow,.arrow:focus-visible{opacity:1}
+.arrow.prev{left:14px}.arrow.next{right:14px}
+.arrow svg{width:14px;height:14px}
+.dots{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);display:flex;gap:6px;z-index:3}
+.dots button{width:6px;height:6px;border-radius:6px;border:0;padding:0;background:rgba(255,255,255,.55);cursor:pointer;transition:width .3s,background .3s}
+.dots button[aria-current="true"]{width:18px;background:#fff}
+.tag{position:absolute;right:0;bottom:0;z-index:4;background:var(--bg);padding:9px 14px 7px 16px;font-size:13px;font-weight:500;border-top-left-radius:var(--r)}
+.tag::before,.tag::after{content:"";position:absolute;width:var(--r);height:var(--r);
+  background:radial-gradient(circle at 0 0, transparent calc(var(--r) - .5px), var(--bg) var(--r))}
+.tag::before{right:0;top:calc(var(--r) * -1)}
+.tag::after{bottom:0;left:calc(var(--r) * -1)}
+.tag:empty{display:none}
+
+/* ---------- home ---------- */
+.intro{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:var(--gap)}
+.card{background:var(--card);border-radius:var(--r);padding:20px}
+.who{display:flex;align-items:center;gap:12px;margin-bottom:34px}
+.avatar{width:46px;height:46px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-weight:700;font-size:16px;flex:none;overflow:hidden}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.who b{display:block;font-size:17px;font-weight:600;line-height:1.2}
+.who span{color:var(--muted);font-size:14px}
+.bio{margin:0;max-width:52ch;font-size:15.5px;line-height:1.55}
+.bio + .bio{margin-top:10px;color:var(--muted);font-size:14px}
+.links{display:flex;flex-direction:column;gap:var(--gap)}
+.lnk{display:flex;align-items:center;justify-content:space-between;background:var(--card);border-radius:10px;padding:12px 14px;font-size:14px;font-weight:500;transition:background .2s}
+.lnk:hover{background:var(--card-2)}
+.lnk svg{width:15px;height:15px;opacity:.75}
+.lnk.cta{background:var(--btn);color:var(--btn-ink);margin-top:auto}
+.lnk.cta:hover{background:var(--btn-hover)}
+.lnk.cta svg{opacity:1}
+
+.bar{display:flex;justify-content:space-between;align-items:baseline;padding:10px 4px 0}
+.bar h2{margin:0;font-size:15px;font-weight:600}
+.bar a{font-size:14px;color:var(--muted);border-bottom:1px solid var(--line)}
+.bar a:hover{color:var(--ink)}
+
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.tile{position:relative;border-radius:10px;overflow:hidden;aspect-ratio:3/4;background:var(--card-2);display:block;isolation:isolate}
+.tile img{width:100%;height:100%;object-fit:cover;transform:scale(1.02);transition:filter .45s ease,transform .45s ease}
+.tile:hover img,.tile:focus-visible img{filter:blur(7px) brightness(.97);transform:scale(1.08)}
+.tile .lab{position:absolute;top:0;left:0;z-index:1;display:flex;align-items:center;gap:0;background:var(--bg);
+  padding:4px 11px 6px 9px;font-size:12px;font-weight:500;line-height:1.3;border-bottom-right-radius:10px;transition:gap .3s ease}
+.tile .lab::before,.tile .lab::after{content:"";position:absolute;width:10px;height:10px;background:radial-gradient(circle at 100% 100%, transparent 9.5px, var(--bg) 10px)}
+.tile .lab::before{top:0;right:-10px}.tile .lab::after{left:0;bottom:-10px}
+.tile .lab svg{width:0;height:11px;opacity:0;transition:width .3s ease,opacity .3s ease}
+.tile:hover .lab,.tile:focus-visible .lab{gap:5px}
+.tile:hover .lab svg,.tile:focus-visible .lab svg{width:11px;opacity:1}
+
+/* ---------- projects list ---------- */
+.list{display:flex;flex-direction:column;gap:6px}
+.row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:16px;align-items:center;background:var(--card);border-radius:10px;padding:13px 16px;font-size:14.5px;transition:background .2s}
+.row:hover,.row:focus-visible{background:var(--card-2)}
+.row .n{font-weight:600}
+.row .c{color:var(--muted);text-align:right}
+.row .y{color:var(--muted);font-variant-numeric:tabular-nums;margin-left:14px}
+.pagehead{padding:22px 20px}
+.pagehead h1{margin:0 0 6px;font-size:clamp(28px,3.4vw,42px);font-weight:600;letter-spacing:-.01em;line-height:1.05}
+.pagehead p{margin:0;color:var(--muted);max-width:56ch}
+
+/* ---------- project detail ---------- */
+.dhead{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr);gap:var(--gap)}
+.dhead h1{margin:0 0 40px;font-size:clamp(28px,3.4vw,42px);font-weight:600;letter-spacing:-.01em;line-height:1.05}
+.dhead .card p{margin:0;max-width:52ch}
+.meta{display:flex;flex-direction:column;gap:var(--gap)}
+.meta div{display:flex;justify-content:space-between;gap:12px;background:var(--card);border-radius:10px;padding:12px 14px;font-size:14px}
+.meta dt{color:var(--muted)} .meta dd{margin:0;text-align:right;font-weight:500}
+.shots{display:flex;flex-direction:column;align-items:center;gap:38px;padding:30px 0 20px}
+.shot{width:min(100%,560px);margin:0}
+.shot .fr{background:var(--frame);padding:14px;box-shadow:0 1px 0 rgba(0,0,0,.05),0 18px 40px -18px rgba(0,0,0,.45),inset 0 0 0 1px rgba(0,0,0,.06)}
+.shot .fr img{width:100%;height:auto;box-shadow:inset 0 0 0 1px rgba(0,0,0,.08)}
+.shot figcaption{text-align:center;margin-top:14px;font-size:14px;font-weight:600}
+.shot figcaption span{display:block;color:var(--muted);font-weight:400;font-size:12.5px}
+.nextp{display:flex;justify-content:space-between;align-items:center;background:var(--card);border-radius:var(--r);padding:18px 20px}
+.nextp span{color:var(--muted);font-size:13.5px;display:block}
+.nextp b{font-size:20px;font-weight:600}
+
+/* ---------- about ---------- */
+.sec{background:var(--card);border-radius:var(--r);padding:20px}
+.sec h2{margin:0 0 14px;font-size:15px;font-weight:600}
+/* ---------- about (from about-reference-rose.html) ---------- */
+.ab-wr{--ab-dots:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='2' cy='2' r='1' fill='%23eadada'/%3E%3C/svg%3E");
+  --ab-hair:#eadada; --ab-dash:#e6d3d3; --ab-back:#f1bcc6; --ab-back-2:#d9a3ae; --ab-chip:var(--bg); --ab-frame:#fff;
+  color:var(--ink);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:20px;background-color:var(--bg);background-image:var(--ab-dots);
+  font-size:16px;line-height:normal}
+.ab-wr *,.ab-wr *::before,.ab-wr *::after{box-sizing:content-box} /* the reference uses browser defaults, not the site's border-box */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]) .ab-wr{--ab-dots:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='2' cy='2' r='1' fill='%233a3030'/%3E%3C/svg%3E");
+    --ab-hair:#3a3030; --ab-dash:#3a3030; --ab-back:#2c2525; --ab-back-2:#2c2525; --ab-chip:var(--card); --ab-frame:var(--card-2)}
+}
+:root[data-theme="dark"] .ab-wr{--ab-dots:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18'%3E%3Ccircle cx='2' cy='2' r='1' fill='%233a3030'/%3E%3C/svg%3E");
+  --ab-hair:#3a3030; --ab-dash:#3a3030; --ab-back:#2c2525; --ab-back-2:#2c2525; --ab-chip:var(--card); --ab-frame:var(--card-2)}
+.ab-sf{font-family:"Instrument Serif",Georgia,serif;font-weight:400}
+.ab-mu{color:var(--muted)}
+.ab-h{font-family:"Instrument Serif",Georgia,serif;font-size:28px;line-height:1;margin:0 0 16px;font-weight:400}
+.ab-g2{display:grid}
+.ab-g2.top{grid-template-columns:1.6fr 1fr;gap:18px}
+.ab-g2.bot{grid-template-columns:1.3fr 1fr;gap:18px;align-items:stretch}
+.ab-pc{position:relative}
+.ab-back{position:absolute;inset:0;background:var(--ab-back);border-radius:8px;transition:transform .9s cubic-bezier(.3,1.4,.5,1)}
+.ab-back.b2{background:var(--ab-back-2)}
+.on .ab-back{transform:rotate(2.5deg) translate(10px,8px)}
+.ab-card{position:relative;background:var(--card);border-radius:8px;padding:22px;box-shadow:0 18px 36px -22px rgba(38,34,34,.35)}
+.ab-card.r14{border-radius:14px}
+.ab-post{transition:transform .9s cubic-bezier(.3,1.4,.5,1)}
+.on .ab-post{transform:rotate(-1deg)}
+.ab-tk{position:relative;display:flex;align-items:center;gap:10px;background:var(--card);padding:12px 14px 12px 34px;font-size:13.5px;border-radius:6px;cursor:pointer;color:inherit;text-decoration:none;opacity:0;transform:translateX(16px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1),background .25s}
+.on .ab-tk{opacity:1;transform:none}
+.ab-tk::before{content:"";position:absolute;left:12px;top:50%;width:9px;height:9px;margin-top:-4.5px;border-radius:50%;background:var(--bg);box-shadow:inset 0 0 0 1px var(--ab-hair)}
+.ab-tk::after{content:"";position:absolute;left:28px;top:8px;bottom:8px;border-left:1.5px dashed var(--ab-hair)}
+.ab-tk svg{width:1em;height:1em;flex:none}
+.ab-tk .ar{margin-left:auto;font-size:14px;transition:transform .25s}
+.ab-tk:hover{background:var(--card-2)}.ab-tk:hover .ar{transform:translate(2px,-2px)}
+.ab-tk.cta{background:var(--btn);color:var(--btn-ink)}.ab-tk.cta::before{box-shadow:none}.ab-tk.cta::after{border-color:color-mix(in srgb,var(--btn-ink) 35%,transparent)}
+.ab-job{display:grid;grid-template-columns:110px 26px minmax(0,1fr);gap:0 14px}
+.ab-y{font-family:"Instrument Serif",Georgia,serif;font-size:30px;line-height:1;color:var(--btn);text-align:right}
+.ab-ym{font-size:11px;color:var(--muted);text-align:right;margin-top:4px}
+.ab-bl{list-style:none;margin:10px 0 0;padding:0;font-size:13.5px;line-height:1.5}
+.ab-bl li{position:relative;padding-left:18px;margin:5px 0}
+.ab-bl li::before{content:"";position:absolute;left:0;top:.72em;width:9px;height:1.5px;background:var(--btn)}
+.ab-lo{width:30px;height:30px;border-radius:8px;background:var(--foot);color:#f1bcc6;display:grid;place-items:center;font-size:12px;font-weight:700;flex:none}
+.ab-jc{padding-bottom:26px;opacity:0;transform:translateY(10px);transition:opacity .5s,transform .6s cubic-bezier(.2,.7,.1,1)}
+.ab-jc.last{padding-bottom:8px}
+.ab-jc.on{opacity:1;transform:none}
+.ab-cur{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:-6px 0 0 -4px}
+.ab-dt{width:14px;height:14px;border-radius:50%;background:var(--bg);border:2px solid var(--ink);margin:8px auto 0;position:relative;z-index:2;transform:scale(0);transition:transform .35s cubic-bezier(.3,1.8,.5,1)}
+.ab-dt.on{transform:none}
+.ab-dt.now{background:var(--btn);border-color:var(--btn);box-shadow:0 0 0 6px color-mix(in srgb,var(--btn) 18%,transparent)}
+.ab-road{position:absolute;top:0;overflow:visible}
+.ab-edu{background:var(--foot);color:var(--foot-ink);padding-right:130px}
+.ab-seal{position:absolute;right:16px;top:50%;margin-top:-44px;width:88px;height:88px;opacity:0;transform:scale(2) rotate(-40deg);transition:opacity .2s,transform .5s cubic-bezier(.5,1.7,.5,1)}
+.on .ab-seal{opacity:1;transform:rotate(-10deg)}
+.ab-tag{position:relative;display:inline-flex;align-items:center;background:var(--ab-chip);border:1px solid var(--ab-hair);padding:7px 13px 7px 24px;font-size:12.5px;margin:0 6px 8px 0;border-radius:4px 16px 16px 4px;opacity:0;transform:translateY(8px) rotate(var(--r,0deg));transition:opacity .4s,transform .5s cubic-bezier(.3,1.6,.5,1),background .2s,color .2s;cursor:default}
+.ab-tag::before{content:"";position:absolute;left:9px;top:50%;width:6px;height:6px;margin-top:-3px;border-radius:50%;border:1.5px solid #d9a3ae}
+.on .ab-tag{opacity:1;transform:rotate(var(--r,0deg))}
+.ab-tag:hover{background:var(--btn);color:var(--btn-ink);border-color:var(--btn)}.ab-tag:hover::before{border-color:#f1bcc6}
+.ab-sw{display:grid;grid-template-columns:34px minmax(0,1fr) auto;gap:12px;align-items:center;padding:9px 0;border-bottom:1px dashed var(--ab-dash);font-size:13.5px;opacity:0;transform:translateX(-10px);transition:opacity .4s,transform .5s cubic-bezier(.2,.7,.1,1)}
+.ab-sw:last-child{border-bottom:0}
+.on .ab-sw{opacity:1;transform:none}
+.ab-ic{width:34px;height:34px;border-radius:8px;background:var(--foot);color:#f1bcc6;display:grid;place-items:center;font-size:13px;font-weight:700;transition:transform .3s}
+.ab-sw:hover .ab-ic{transform:rotate(-8deg)}
+.ab-lv{font-size:11.5px;color:var(--muted)}
+.ab-lv:not(:empty){background:var(--ab-chip);border:1px solid var(--line);border-radius:20px;padding:3px 10px}
+.ab-langs{display:flex;flex-direction:column}
+.ab-lgs{display:flex;flex-direction:column;gap:16px;flex:1;padding:4px 6px}
+.ab-ls{flex:1;display:flex;background:var(--ab-frame);padding:6px;border:3px dotted var(--card);outline:1px solid var(--line);opacity:0;transform:scale(1.4) rotate(var(--r));transition:opacity .2s,transform .5s cubic-bezier(.5,1.7,.5,1)}
+.on .ab-ls{opacity:1;transform:rotate(var(--r))}
+.ab-ls>div{background:var(--card);padding:14px 16px;flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.ab-ls .ab-ln{font-family:"Instrument Serif",Georgia,serif;font-size:30px;line-height:1}
+.ab-ls .ab-lvl{font-size:12px;color:var(--muted);margin-top:6px}
+@media (max-width:560px){
+  .ab-g2.top,.ab-g2.bot{grid-template-columns:1fr}
+  .ab-seal{display:none}
+  .ab-edu{padding-right:22px}
+  .ab-job{grid-template-columns:22px minmax(0,1fr);grid-template-areas:"dot yr" "dot jc";gap:0 12px}
+  .ab-job>div:nth-child(1){grid-area:yr;display:flex;align-items:baseline;gap:8px;margin-bottom:8px}
+  .ab-job>div:nth-child(1):empty{display:none}
+  .ab-job>div:nth-child(2){grid-area:dot}
+  .ab-job>.ab-jc{grid-area:jc}
+  .ab-y{font-size:24px;text-align:left}
+  .ab-ym{text-align:left;margin-top:0}
+  .ab-cur{margin:0}
+}
+
+/* ---------- contact ---------- */
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--bg);border-radius:999px;padding:6px 12px 6px 11px;font-size:13px;font-weight:500;margin-bottom:26px}
+.badge i{position:relative;width:8px;height:8px;border-radius:50%;background:#2fb36b;flex:none}
+.badge i::after{content:"";position:absolute;inset:0;border-radius:50%;background:#2fb36b;animation:pulse 2s ease-out infinite}
+@keyframes pulse{from{transform:scale(1);opacity:.55}to{transform:scale(2.8);opacity:0}}
+.cgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--gap)}
+.cc{position:relative;display:flex;flex-direction:column;justify-content:space-between;gap:22px;min-height:150px;background:var(--card);border-radius:var(--r);padding:20px;transition:background .2s}
+.cc.lk:hover,.cc.lk:focus-within{background:var(--card-2)}
+.cc.wide{grid-column:1/-1}
+.cc .ic{width:44px;height:44px;border-radius:50%;background:var(--bg);color:var(--ink);display:grid;place-items:center}
+.cc .ic svg{width:20px;height:20px}
+.cc .k{display:block;color:var(--muted);font-size:13px;margin-bottom:2px}
+.cc .v{display:block;font-size:17px;font-weight:600;line-height:1.3;overflow-wrap:break-word}
+.cc .v2{display:block;color:var(--muted);font-size:14px;margin-top:2px}
+.cc .ccb{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.cc .cl::after{content:"";position:absolute;inset:0;border-radius:inherit}
+.cc .cl:focus-visible{outline:0}
+.cc:has(.cl:focus-visible){outline:2px solid var(--focus);outline-offset:2px}
+.cc .go{position:absolute;top:20px;right:20px;width:18px;height:18px;opacity:0;transform:translateX(-6px);transition:opacity .3s ease,transform .3s ease}
+.cc.lk:hover .go,.cc.lk:focus-within .go{opacity:1;transform:none}
+.cpy{position:relative;z-index:1;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:999px;padding:5px 12px;font-size:13px;font-weight:500;cursor:pointer}
+.mform{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px var(--gap)}
+.mform .f{min-width:0}
+.mform .full{grid-column:1/-1}
+.mform label{display:block;color:var(--muted);font-size:13px;margin-bottom:6px}
+.fi{display:block;width:100%;background:var(--bg);color:var(--ink);border:0;border-radius:10px;padding:12px 14px;font:inherit;font-size:15px;line-height:1.4;-webkit-appearance:none;appearance:none}
+.fi:focus{outline:2px solid var(--focus);outline-offset:2px}
+.fi[aria-invalid="true"]{box-shadow:inset 0 0 0 1.5px var(--ink)}
+textarea.fi{min-height:140px;resize:vertical}
+.sel{position:relative}
+.sel::after{content:"";position:absolute;right:17px;top:50%;width:7px;height:7px;border-right:1.6px solid var(--muted);border-bottom:1.6px solid var(--muted);transform:translateY(-70%) rotate(45deg);pointer-events:none}
+.sel .fi{padding-right:40px;cursor:pointer}
+.ferr{margin:6px 0 0;font-size:13px;font-weight:500}
+.ferr:empty{display:none}
+button.lnk.cta{width:100%;border:0;cursor:pointer;margin-top:4px}
+@media (max-width:560px){
+  .cgrid,.mform{grid-template-columns:1fr}
+}
+@media (prefers-reduced-motion:reduce){
+  .badge i::after{display:none}
+}
+
+/* ---------- footer ---------- */
+.foot{background:var(--foot);color:var(--foot-ink);border-radius:var(--r);padding:28px 24px 20px;margin-top:auto}
+.foot .who{margin:0}
+.foot .avatar{background:var(--foot-ink);color:var(--foot)}
+.foot .avatar.ficon{border-radius:12px;background:none}
+.foot .who span{color:rgba(255,255,255,.55)}
+.fcta{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:18px 24px}
+.fcta h2{margin:0;font-size:clamp(26px,3vw,38px);font-weight:600;line-height:1.1}
+.fcta p{margin:8px 0 0;font-size:15px;color:rgba(255,255,255,.55)}
+.fbtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;flex:none;background:#fbf3f3;color:#262222;border-radius:999px;padding:12px 20px;font-size:14px;font-weight:600;white-space:nowrap;transition:opacity .2s}
+.fbtn svg{width:13px;height:13px;transition:transform .3s ease}
+.fbtn:hover{opacity:.9}
+.fbtn:hover svg{transform:translateX(3px)}
+.fline{height:1px;background:rgba(255,255,255,.12);margin:26px 0 20px}
+.frow{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px 24px}
+.fnav{display:flex;flex-wrap:wrap;gap:8px 22px}
+.fnav a{font-size:14px;color:rgba(255,255,255,.6);transition:color .2s}
+.fnav a:hover{color:#fff}
+.fsoc{display:flex;gap:8px}
+.fsoc a{width:38px;height:38px;border-radius:50%;border:1px solid rgba(255,255,255,.18);color:#fff;display:grid;place-items:center;transition:background .2s,color .2s}
+.fsoc a:hover{background:#fbf3f3;color:#262222}
+.fsoc svg{width:16px;height:16px}
+.fbot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px 16px;margin-top:22px;font-size:12.5px;color:rgba(255,255,255,.55)}
+.totop{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:0;color:inherit;font-size:inherit;cursor:pointer;transition:color .2s}
+.totop:hover{color:#fff}
+.totop svg{width:12px;height:12px}
+@media (max-width:700px){
+  .fcta,.frow,.fbot{flex-direction:column;align-items:flex-start}
+  .fcta{align-items:stretch}
+  .fbtn{width:100%}
+  .frow{gap:18px}
+}
+
+.view{display:flex;flex-direction:column;gap:var(--gap)}
+.view.enter{animation:in .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .shell{grid-template-columns:1fr}
+  .stage{position:relative;top:0;height:68vh;min-height:380px}
+  .intro,.dhead{grid-template-columns:1fr}
+  .links{display:grid;grid-template-columns:1fr 1fr}
+  .lnk.cta{grid-column:1/-1}
+}
+@media (max-width:560px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .nav{gap:13px;padding-right:14px}
+  .nav a.l{font-size:13px}
+  .nav .cv .cvt{display:none}
+  .row .y{display:none}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{transition:none!important;animation:none!important}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="stage" id="stage">
+    <nav class="nav" aria-label="Main">
+      <a class="brand" href="#/"><img src="assets/icon/sara-icon.svg" alt="" width="18" height="18">SARA</a>
+      <a class="l" href="#/">Home</a>
+      <a class="l" href="#/projects">Projects</a>
+      <a class="l" href="#/about">About</a>
+      <a class="l" href="#/contact">Contact</a>
+      <a class="cv" href="assets/cv/Sara-Mohamed-CV.pdf" download="Sara-Mohamed-CV.pdf" target="_blank" rel="noopener" aria-label="Download Sara Mohamed&#39;s CV (PDF)"><span class="cvt">CV</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><g class="cva"><path d="M12 3v11"/><path d="M7.5 9.5L12 14l4.5-4.5"/></g><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></a>
+      <button class="theme" id="theme" aria-label="Switch light or dark mode">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 3a9 9 0 0 0 0 18z" fill="currentColor"/></svg>
+      </button>
+    </nav>
+    <div class="slides" id="slides" aria-live="polite"></div>
+    <button class="arrow prev" id="prev" aria-label="Previous image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <button class="arrow next" id="next" aria-label="Next image"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 5l7 7-7 7"/></svg></button>
+    <div class="dots" id="dots"></div>
+    <a class="tag" id="tag"></a>
+  </aside>
+  <main class="main">
+    <div id="view" class="view"></div>
+    <footer class="foot" id="foot"></footer>
+  </main>
+</div>
+
+<script>
+/* =========================================================
+   PROFILE — from Sara's CV
+   ========================================================= */
+const PROFILE = {
+  name: "Sara Mohamed",
+  title: "Graphic Designer",
+  photo: "", // put a data: URL here to replace the initials
+  location: "Cairo, Egypt",
+  email: "sara080009@gmail.com",
+  phone: "+20 106 609 7393",
+  whatsapp: "201066097393",
+  behance: "https://www.behance.net/srnssr",
+  bio: "I'm Sara, a graphic designer from Cairo. I build brand identities, logos, social media content and print work, turning marketing goals into visuals people remember.",
+  bio2: "Nearly 2 years designing for agencies, wellness brands and print."
+};
+
+/* =========================================================
+   PROJECTS — replace `images` with real work.
+   Each image: { src: "data:image/... or url", caption: "", note: "" }
+   While `images` is empty, a placeholder artwork is drawn.
+   ========================================================= */
+const PROJECTS = [
+  { slug:"project1", title:"Jaguar", category:"Branding", client:"Jaguar", year:"",
+    desc:"Jaguar is a snack brand that offers fun and flavorful treats. The redesign focuses on giving the brand a fresh, playful identity that resonates with a younger audience. By introducing a bold and funny logo along with vibrant visuals, the new branding highlights the joy and energy of snacking, making the brand more engaging and memorable.",
+    palette:["#dcebe6","#2f6f66","#f1c7b5","#123a35"], mark:"J", images:[
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.05.23%20AM.jpeg", caption:"Jaguar 1", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.05.24%20AM%20(1).jpeg", caption:"Jaguar 2", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.05.24%20AM.jpeg", caption:"Jaguar 3", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.05.25%20AM%20(1).jpeg", caption:"Jaguar 4", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.05.25%20AM%20(2).jpeg", caption:"Jaguar 5", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.05.25%20AM.jpeg", caption:"Jaguar 6", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.05.26%20AM%20(1).jpeg", caption:"Jaguar 7", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.05.26%20AM.jpeg", caption:"Jaguar 8", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.04.47%20AM%20(1).jpeg", caption:"Jaguar 9", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.04.47%20AM.jpeg", caption:"Jaguar 10", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.04.48%20AM%20(1).jpeg", caption:"Jaguar 11", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.04.48%20AM%20(2).jpeg", caption:"Jaguar 12", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.04.48%20AM.jpeg", caption:"Jaguar 13", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.04.49%20AM%20(1).webp", caption:"Jaguar 14", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.04.49%20AM%20(2).jpeg", caption:"Jaguar 15", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.04.49%20AM%20(3).jpeg", caption:"Jaguar 16", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.04.49%20AM.jpeg", caption:"Jaguar 17", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.04.50%20AM%20(1).jpeg", caption:"Jaguar 18", note:"" },
+      { src:"assets/projects/project1/WhatsApp%20Image%202026-09-29%20at%2011.04.50%20AM.jpeg", caption:"Jaguar 19", note:"" }
+    ] },
+  { slug:"project2", title:"EVERA", category:"App design", client:"EVERA", year:"",
+    desc:"EVERA is an AI-powered medical assistant that helps users interpret symptoms and medical scans through intelligent analysis. The application is designed to provide accessible healthcare insights, improve early understanding of potential conditions, and enhance the overall patient experience.",
+    palette:["#f6e1dc","#b8505a","#f4b860","#3b1a20"], mark:"E", images:[
+      { src:"assets/projects/project2/WhatsApp%20Image%202026-09-29%20at%2011.10.22%20AM%20(1).jpeg", caption:"EVERA 1", note:"" },
+      { src:"assets/projects/project2/WhatsApp%20Image%202026-09-29%20at%2011.10.22%20AM%20(2).jpeg", caption:"EVERA 2", note:"" },
+      { src:"assets/projects/project2/WhatsApp%20Image%202026-09-29%20at%2011.10.22%20AM%20(3).webp", caption:"EVERA 3", note:"" },
+      { src:"assets/projects/project2/WhatsApp%20Image%202026-09-29%20at%2011.10.22%20AM.jpeg", caption:"EVERA 4", note:"" },
+      { src:"assets/projects/project2/WhatsApp%20Image%202026-09-29%20at%2011.10.23%20AM%20(1).jpeg", caption:"EVERA 5", note:"" },
+      { src:"assets/projects/project2/WhatsApp%20Image%202026-09-29%20at%2011.10.23%20AM%20(2).jpeg", caption:"EVERA 6", note:"" },
+      { src:"assets/projects/project2/WhatsApp%20Image%202026-09-29%20at%2011.10.23%20AM%20(3).jpeg", caption:"EVERA 7", note:"" },
+      { src:"assets/projects/project2/WhatsApp%20Image%202026-09-29%20at%2011.10.23%20AM%20(4).jpeg", caption:"EVERA 8", note:"" },
+      { src:"assets/projects/project2/WhatsApp%20Image%202026-09-29%20at%2011.10.23%20AM%20(5).jpeg", caption:"EVERA 9", note:"" },
+      { src:"assets/projects/project2/WhatsApp%20Image%202026-09-29%20at%2011.10.23%20AM%20(6).jpeg", caption:"EVERA 10", note:"" },
+      { src:"assets/projects/project2/WhatsApp%20Image%202026-09-29%20at%2011.10.23%20AM.jpeg", caption:"EVERA 11", note:"" }
+    ] },
+  { slug:"project3", title:"Summer campaign", category:"Social media", client:"Everlast Wellness Medical Centre, Abu Dhabi", year:"",
+    desc:"A summer promotional campaign designed for Everlast Wellness Medical Centre in Abu Dhabi, UAE. The project showcases a series of social media advertisements highlighting the center's seasonal offers on aesthetic and skincare treatments. The design approach focuses on combining a fresh summer atmosphere with a clean, modern medical aesthetic to enhance engagement and brand visibility.",
+    palette:["#1d2a6b","#f4d23c","#e9e6dc","#0c1240"], mark:"S", images:[
+      { src:"assets/projects/project3/WhatsApp%20Image%202026-09-29%20at%2011.15.42%20AM.jpeg", caption:"Summer campaign 1", note:"" },
+      { src:"assets/projects/project3/WhatsApp%20Image%202026-09-29%20at%2011.15.43%20AM%20(1).jpeg", caption:"Summer campaign 2", note:"" },
+      { src:"assets/projects/project3/WhatsApp%20Image%202026-09-29%20at%2011.15.43%20AM.jpeg", caption:"Summer campaign 3", note:"" },
+      { src:"assets/projects/project3/WhatsApp%20Image%202026-09-29%20at%2011.15.44%20AM.jpeg", caption:"Summer campaign 4", note:"" },
+      { src:"assets/projects/project3/WhatsApp%20Image%202026-09-29%20at%2011.15.45%20AM%20(1).jpeg", caption:"Summer campaign 5", note:"" },
+      { src:"assets/projects/project3/WhatsApp%20Image%202026-09-29%20at%2011.15.45%20AM%20(2).jpeg", caption:"Summer campaign 6", note:"" },
+      { src:"assets/projects/project3/WhatsApp%20Image%202026-09-29%20at%2011.15.45%20AM%20(3).jpeg", caption:"Summer campaign 7", note:"" },
+      { src:"assets/projects/project3/WhatsApp%20Image%202026-09-29%20at%2011.15.45%20AM%20(4).jpeg", caption:"Summer campaign 8", note:"" },
+      { src:"assets/projects/project3/WhatsApp%20Image%202026-09-29%20at%2011.15.45%20AM%20(5).jpeg", caption:"Summer campaign 9", note:"" },
+      { src:"assets/projects/project3/WhatsApp%20Image%202026-09-29%20at%2011.15.45%20AM.jpeg", caption:"Summer campaign 10", note:"" }
+    ] },
+  { slug:"project4", title:"Corporate magazine", category:"Editorial", client:"Medical center", year:"",
+    desc:"A comprehensive corporate magazine designed to showcase the center's healthcare services, facilities, medical specialties, and patient-focused experience.",
+    palette:["#efece6","#141414","#e2432f","#141414"], mark:"C", images:[
+      { src:"assets/projects/project4/WhatsApp%20Image%202026-09-29%20at%2011.19.25%20AM%20(1).jpeg", caption:"Corporate magazine 1", note:"" },
+      { src:"assets/projects/project4/WhatsApp%20Image%202026-09-29%20at%2011.19.25%20AM%20(2).jpeg", caption:"Corporate magazine 2", note:"" },
+      { src:"assets/projects/project4/WhatsApp%20Image%202026-09-29%20at%2011.19.25%20AM%20(3).jpeg", caption:"Corporate magazine 3", note:"" },
+      { src:"assets/projects/project4/WhatsApp%20Image%202026-09-29%20at%2011.19.25%20AM%20(4).jpeg", caption:"Corporate magazine 4", note:"" },
+      { src:"assets/projects/project4/WhatsApp%20Image%202026-09-29%20at%2011.19.25%20AM.jpeg", caption:"Corporate magazine 5", note:"" },
+      { src:"assets/projects/project4/WhatsApp%20Image%202026-09-29%20at%2011.19.26%20AM%20(1).jpeg", caption:"Corporate magazine 6", note:"" },
+      { src:"assets/projects/project4/WhatsApp%20Image%202026-09-29%20at%2011.19.26%20AM%20(2).jpeg", caption:"Corporate magazine 7", note:"" },
+      { src:"assets/projects/project4/WhatsApp%20Image%202026-09-29%20at%2011.19.26%20AM.jpeg", caption:"Corporate magazine 8", note:"" }
+    ] },
+  { slug:"project5", title:"Al Raha dental campaign", category:"Social media", client:"Al Raha Medical Center, Abu Dhabi", year:"",
+    desc:"This project showcases a series of social media posts designed for Al Raha Medical Center, a healthcare clinic based in Abu Dhabi, UAE. The campaign promotes dental services through clean, modern, and visually engaging designs that reflect the clinic's professional identity. The main objective was to create eye-catching promotional content that communicates special offers clearly while maintaining trust, credibility, and a premium healthcare look.",
+    palette:["#e8e1f5","#5b3fb0","#ff8a65","#22164d"], mark:"A", images:[
+      { src:"assets/projects/project5/WhatsApp%20Image%202026-09-29%20at%2011.21.37%20AM%20(1).jpeg", caption:"Al Raha dental campaign 1", note:"" },
+      { src:"assets/projects/project5/WhatsApp%20Image%202026-09-29%20at%2011.21.37%20AM%20(2).jpeg", caption:"Al Raha dental campaign 2", note:"" },
+      { src:"assets/projects/project5/WhatsApp%20Image%202026-09-29%20at%2011.21.37%20AM%20(3).jpeg", caption:"Al Raha dental campaign 3", note:"" },
+      { src:"assets/projects/project5/WhatsApp%20Image%202026-09-29%20at%2011.21.37%20AM.jpeg", caption:"Al Raha dental campaign 4", note:"" },
+      { src:"assets/projects/project5/WhatsApp%20Image%202026-09-29%20at%2011.21.38%20AM%20(1).jpeg", caption:"Al Raha dental campaign 5", note:"" },
+      { src:"assets/projects/project5/WhatsApp%20Image%202026-09-29%20at%2011.21.38%20AM%20(2).jpeg", caption:"Al Raha dental campaign 6", note:"" },
+      { src:"assets/projects/project5/WhatsApp%20Image%202026-09-29%20at%2011.21.38%20AM%20(3).jpeg", caption:"Al Raha dental campaign 7", note:"" },
+      { src:"assets/projects/project5/WhatsApp%20Image%202026-09-29%20at%2011.21.38%20AM.jpeg", caption:"Al Raha dental campaign 8", note:"" }
+    ] },
+  { slug:"project6", title:"Medical brochure", category:"Print", client:"Medical center", year:"",
+    desc:"A clean and modern medical brochure designed to communicate healthcare services clearly through structured layouts, refined typography, and strong visual hierarchy. Design focus: art direction, editorial layout, typography, information hierarchy and print design.",
+    palette:["#e9dcc6","#00a3d9","#e5007e","#1c1c1c"], mark:"M", images:[
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.31%20AM%20(1).jpeg", caption:"Medical brochure 1", note:"" },
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.31%20AM%20(2).jpeg", caption:"Medical brochure 2", note:"" },
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.31%20AM%20(3).jpeg", caption:"Medical brochure 3", note:"" },
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.31%20AM.jpeg", caption:"Medical brochure 4", note:"" },
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.32%20AM%20(1).jpeg", caption:"Medical brochure 5", note:"" },
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.32%20AM.jpeg", caption:"Medical brochure 6", note:"" },
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.33%20AM%20(1).jpeg", caption:"Medical brochure 7", note:"" },
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.33%20AM%20(2).jpeg", caption:"Medical brochure 8", note:"" },
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.33%20AM%20(3).jpeg", caption:"Medical brochure 9", note:"" },
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.33%20AM%20(4).jpeg", caption:"Medical brochure 10", note:"" },
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.33%20AM.jpeg", caption:"Medical brochure 11", note:"" },
+      { src:"assets/projects/project6/WhatsApp%20Image%202026-09-29%20at%2011.27.35%20AM.jpeg", caption:"Medical brochure 12", note:"" }
+    ] },
+  { slug:"project7", title:"Healthcare flyer", category:"Print", client:"Medical center", year:"",
+    desc:"A modern healthcare flyer designed to communicate the medical center's services through a clear and refined visual system. The layout combines strong typography, structured information, and a clean aesthetic to create an informative and professional communication piece.",
+    palette:["#f2eadf","#2d4a3e","#d98e04","#1a2a23"], mark:"H", images:[
+      { src:"assets/projects/project7/WhatsApp%20Image%202026-09-29%20at%2011.32.36%20AM%20(1).jpeg", caption:"Healthcare flyer 1", note:"" },
+      { src:"assets/projects/project7/WhatsApp%20Image%202026-09-29%20at%2011.32.36%20AM.jpeg", caption:"Healthcare flyer 2", note:"" },
+      { src:"assets/projects/project7/WhatsApp%20Image%202026-09-29%20at%2011.32.37%20AM%20(1).jpeg", caption:"Healthcare flyer 3", note:"" },
+      { src:"assets/projects/project7/WhatsApp%20Image%202026-09-29%20at%2011.32.37%20AM%20(2).jpeg", caption:"Healthcare flyer 4", note:"" },
+      { src:"assets/projects/project7/WhatsApp%20Image%202026-09-29%20at%2011.32.37%20AM.jpeg", caption:"Healthcare flyer 5", note:"" },
+      { src:"assets/projects/project7/WhatsApp%20Image%202026-09-29%20at%2011.32.38%20AM%20(1).jpeg", caption:"Healthcare flyer 6", note:"" },
+      { src:"assets/projects/project7/WhatsApp%20Image%202026-09-29%20at%2011.32.38%20AM%20(2).jpeg", caption:"Healthcare flyer 7", note:"" },
+      { src:"assets/projects/project7/WhatsApp%20Image%202026-09-29%20at%2011.32.38%20AM.jpeg", caption:"Healthcare flyer 8", note:"" },
+      { src:"assets/projects/project7/WhatsApp%20Image%202026-09-29%20at%2011.32.39%20AM%20(1).jpeg", caption:"Healthcare flyer 9", note:"" },
+      { src:"assets/projects/project7/WhatsApp%20Image%202026-09-29%20at%2011.32.39%20AM.jpeg", caption:"Healthcare flyer 10", note:"" }
+    ] },
+  { slug:"project8", title:"Skin health magazine", category:"Editorial", client:"Medical center", year:"",
+    desc:"An editorial magazine designed for a medical center, focusing on acne, skincare, and healthy skin. The project combines a clean editorial layout, refined typography, and a contemporary visual direction to present medical information in an engaging and accessible way.",
+    palette:["#fbe9d0","#e0672a","#3a6ea5","#2a1a10"], mark:"S", images:[
+      { src:"assets/projects/project8/WhatsApp%20Image%202026-09-29%20at%2011.48.56%20AM%20(1).jpeg", caption:"Skin health magazine 1", note:"" },
+      { src:"assets/projects/project8/WhatsApp%20Image%202026-09-29%20at%2011.48.56%20AM%20(2).jpeg", caption:"Skin health magazine 2", note:"" },
+      { src:"assets/projects/project8/WhatsApp%20Image%202026-09-29%20at%2011.48.56%20AM%20(3).jpeg", caption:"Skin health magazine 3", note:"" },
+      { src:"assets/projects/project8/WhatsApp%20Image%202026-09-29%20at%2011.48.56%20AM.jpeg", caption:"Skin health magazine 4", note:"" },
+      { src:"assets/projects/project8/WhatsApp%20Image%202026-09-29%20at%2011.48.57%20AM.jpeg", caption:"Skin health magazine 5", note:"" },
+      { src:"assets/projects/project8/WhatsApp%20Image%202026-09-29%20at%2011.48.58%20AM%20(1).jpeg", caption:"Skin health magazine 6", note:"" },
+      { src:"assets/projects/project8/WhatsApp%20Image%202026-09-29%20at%2011.48.58%20AM%20(2).jpeg", caption:"Skin health magazine 7", note:"" },
+      { src:"assets/projects/project8/WhatsApp%20Image%202026-09-29%20at%2011.48.58%20AM%20(3).jpeg", caption:"Skin health magazine 8", note:"" },
+      { src:"assets/projects/project8/WhatsApp%20Image%202026-09-29%20at%2011.48.58%20AM%20(4).jpeg", caption:"Skin health magazine 9", note:"" },
+      { src:"assets/projects/project8/WhatsApp%20Image%202026-09-29%20at%2011.48.58%20AM%20(5).jpeg", caption:"Skin health magazine 10", note:"" },
+      { src:"assets/projects/project8/WhatsApp%20Image%202026-09-29%20at%2011.48.58%20AM.jpeg", caption:"Skin health magazine 11", note:"" }
+    ] },
+  { slug:"project9", title:"Peptides Masterclass 2026", category:"Editorial", client:"Peptides Masterclass", year:"2026",
+    desc:"Medical and scientific catalog design focused on peptides, modern wellness medicine, and advanced medical practices.",
+    palette:["#dcebe6","#2f6f66","#f1c7b5","#123a35"], mark:"P", images:[
+      { src:"assets/projects/project9/WhatsApp%20Image%202026-09-29%20at%205.08.26%20PM%20(1).jpeg", caption:"Peptides Masterclass 2026 1", note:"" },
+      { src:"assets/projects/project9/WhatsApp%20Image%202026-09-29%20at%205.08.26%20PM%20(2).jpeg", caption:"Peptides Masterclass 2026 2", note:"" },
+      { src:"assets/projects/project9/WhatsApp%20Image%202026-09-29%20at%205.08.26%20PM%20(3).jpeg", caption:"Peptides Masterclass 2026 3", note:"" },
+      { src:"assets/projects/project9/WhatsApp%20Image%202026-09-29%20at%205.08.26%20PM%20(4).jpeg", caption:"Peptides Masterclass 2026 4", note:"" },
+      { src:"assets/projects/project9/WhatsApp%20Image%202026-09-29%20at%205.08.26%20PM%20(5).jpeg", caption:"Peptides Masterclass 2026 5", note:"" },
+      { src:"assets/projects/project9/WhatsApp%20Image%202026-09-29%20at%205.08.26%20PM%20(6).jpeg", caption:"Peptides Masterclass 2026 6", note:"" },
+      { src:"assets/projects/project9/WhatsApp%20Image%202026-09-29%20at%205.08.26%20PM.jpeg", caption:"Peptides Masterclass 2026 7", note:"" }
+    ] }
+];
+
+const EXPERIENCE = [
+  { role:"Graphic Designer", org:"Everlast Medical Wellness — UAE", when:"Oct 2025 – Oct 2026",
+    points:["Social media and digital marketing content for a medical and wellness brand","Campaign visuals and promotional materials for aesthetic, wellness and beauty services","Visual consistency across many services and campaigns"] },
+  { role:"Graphic Designer", org:"Inza Marketing Agency", when:"Dec 2024 – Aug 2025",
+    points:["Social media content for clients and marketing campaigns","Logos and visual identities aligned with client brand guidelines","Designs prepared for digital and print, across multiple brands at once"] },
+  { role:"Graphic Design Trainee", org:"Al-Amirya Printing Press", when:"",
+    points:["Hands-on print production and the design-to-print workflow","File preparation and production requirements for print materials"] }
+];
+const SKILLS = ["Branding & visual identity","Logo design","Social media design","Digital marketing design","Marketing campaigns","Print design","Creative concepts","Visual communication","Illustration & freehand drawing"];
+const SOFTWARE = [["Adobe Photoshop","Advanced"],["Adobe Illustrator","Advanced"],["Adobe After Effects","Intermediate"],["Adobe Premiere Pro","Intermediate"],["Autodesk SketchBook",""]];
+const LANGS = [["Arabic","Native"],["English","Intermediate"]];
+
+/* =========================================================
+   Placeholder artwork (used until real images are added)
+   ========================================================= */
+const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+function art(p, v){
+  const [bg,a,b,ink] = p.palette, W=1200, H=1500, t=esc(p.title), m=esc(p.mark);
+  let g="";
+  if(v%3===0){ // poster: big type + shapes
+    g = `<circle cx="860" cy="560" r="330" fill="${a}"/><rect x="120" y="760" width="520" height="520" rx="260" fill="${b}"/>
+      <text x="90" y="1360" font-family="Urbanist,Arial,sans-serif" font-weight="700" font-size="${Math.min(150,Math.round(1900/p.title.length))}" fill="${ink}" letter-spacing="-3">${t}</text>
+      <text x="96" y="1430" font-family="Urbanist,Arial,sans-serif" font-size="40" fill="${ink}" opacity=".6">${esc(p.category)} · ${esc(p.year)}</text>`;
+  } else if(v%3===1){ // social grid mockup
+    const cells=[];
+    for(let r=0;r<3;r++)for(let c=0;c<3;c++){
+      const x=120+c*330, y=240+r*330, f=[a,b,ink,b,a,bg,ink,a,b][r*3+c];
+      cells.push(`<rect x="${x}" y="${y}" width="300" height="300" rx="20" fill="${f}" ${f===bg?`stroke="${ink}" stroke-opacity=".15" stroke-width="3"`:""}/>`);
+      if((r+c)%2===0) cells.push(`<circle cx="${x+150}" cy="${y+150}" r="70" fill="${f===a?b:a}" opacity=".9"/>`);
+    }
+    g = cells.join("")+`<text x="120" y="1360" font-family="Urbanist,Arial,sans-serif" font-weight="700" font-size="72" fill="${ink}">${t}</text>`;
+  } else { // logo mark
+    g = `<rect x="300" y="380" width="600" height="600" rx="140" fill="${a}"/>
+      <text x="600" y="840" text-anchor="middle" font-family="Urbanist,Arial,sans-serif" font-weight="700" font-size="440" fill="${bg}">${m}</text>
+      <rect x="300" y="1060" width="600" height="14" rx="7" fill="${b}"/>
+      <text x="600" y="1200" text-anchor="middle" font-family="Urbanist,Arial,sans-serif" font-weight="600" font-size="58" fill="${a}">${t}</text>`;
+  }
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}"><rect width="100%" height="100%" fill="${bg}"/>${g}</svg>`;
+  return "data:image/svg+xml;charset=utf-8,"+encodeURIComponent(svg);
+}
+function shots(p){
+  if(p.images && p.images.length) return p.images.map((im,i)=>({src:im.src||im, caption:im.caption||`${p.title} ${i+1}`, note:im.note??p.year}));
+  const o=PROJECTS.indexOf(p)%3;
+  return [0,1,2].map(k=>(k+o)%3).map(v=>({src:art(p,v), caption:["Key visual","Layout system","Brand mark"][v], note:"Placeholder — project images coming soon"}));
+}
+const cover = p => shots(p)[0].src;
+
+/* =========================================================
+   Stage (left image panel)
+   ========================================================= */
+const $ = s => document.querySelector(s);
+const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let slides=[], idx=0, timer=null;
+
+function setStage(list, opts={}){
+  slides = list; idx = 0;
+  const box = $("#slides");
+  box.innerHTML = list.map((s,i)=>`<div class="slide" style="transform:translateX(${i===0?0:100}%)"><img src="${s.src}" alt="${esc(s.label||"")}" ${i?'loading="lazy"':''}></div>`).join("");
+  $("#dots").innerHTML = list.length>1 ? list.map((_,i)=>`<button aria-label="Image ${i+1}" aria-current="${i===0}"></button>`).join("") : "";
+  [...$("#dots").children].forEach((d,i)=>d.onclick=()=>go(i));
+  $("#prev").style.display = $("#next").style.display = list.length>1 ? "" : "none";
+  updateTag();
+  clearInterval(timer);
+  if(opts.auto && list.length>1 && !reduce) timer=setInterval(()=>go(idx+1),5000);
+}
+function go(n){
+  if(slides.length<2) return;
+  const prev=idx; idx=(n+slides.length)%slides.length; if(prev===idx) return;
+  const dir = (n>prev || (prev===slides.length-1 && idx===0)) && !(prev===0 && n<0) ? 1 : -1;
+  const els=$("#slides").children;
+  const inEl=els[idx], outEl=els[prev];
+  inEl.style.transition="none"; inEl.style.transform=`translateX(${dir*100}%)`;
+  inEl.offsetWidth; inEl.style.transition="";
+  inEl.style.transform="translateX(0)"; outEl.style.transform=`translateX(${-dir*100}%)`;
+  [...$("#dots").children].forEach((d,i)=>d.setAttribute("aria-current", i===idx));
+  updateTag();
+}
+function updateTag(){
+  const s=slides[idx]||{}; const t=$("#tag");
+  t.textContent = s.label||""; if(s.href) t.href=s.href; else t.removeAttribute("href");
+}
+// show one image instantly (hover previews)
+function peek(src,label,href){
+  clearInterval(timer);
+  setStage([{src,label,href}]);
+}
+$("#prev").onclick=()=>{clearInterval(timer);go(idx-1)};
+$("#next").onclick=()=>{clearInterval(timer);go(idx+1)};
+let tx=null;
+$("#stage").addEventListener("touchstart",e=>tx=e.touches[0].clientX,{passive:true});
+$("#stage").addEventListener("touchend",e=>{if(tx==null)return;const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>40){clearInterval(timer);go(idx+(d<0?1:-1))}tx=null});
+
+/* =========================================================
+   Views
+   ========================================================= */
+const I = {
+  arrow:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17L17 7M8 7h9v9"/></svg>',
+  be:'<svg viewBox="0 0 24 24" fill="currentColor"><path d="M8.2 11.3c.9-.4 1.4-1.1 1.4-2.2 0-2-1.5-2.6-3.3-2.6H1v11h5.5c2 0 3.9-1 3.9-3.3 0-1.4-.7-2.5-2.2-2.9zM3.4 8.4h2.4c.9 0 1.6.3 1.6 1.2 0 .9-.6 1.2-1.4 1.2H3.4zm2.7 7.2H3.4v-3h2.8c1.1 0 1.8.5 1.8 1.6 0 1.1-.8 1.4-1.9 1.4zM15 7.2h5.4v1.3H15zm2.8 2.3c-2.6 0-4.3 1.9-4.3 4.4 0 2.6 1.6 4.4 4.3 4.4 2 0 3.3-.9 4-2.8h-2c-.2.7-1.1 1.1-1.9 1.1-1.3 0-2-.8-2-2.1H22c.2-2.7-1.3-5-4.2-5zm-2 3.5c.1-1.1.8-1.8 1.9-1.8 1.1 0 1.7.6 1.8 1.8z"/></svg>',
+  wa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 1-13.4 7.8L3 21l1.3-4.4A9 9 0 1 1 21 12z"/></svg>',
+  ph:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>',
+  mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+  dl:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 4v11m0 0l-4-4m4 4l4-4M5 20h14"/></svg>'
+};
+const initials = PROFILE.name.split(" ").map(w=>w[0]).join("").slice(0,2);
+const avatar = () => `<div class="avatar">${PROFILE.photo?`<img src="${PROFILE.photo}" alt="">`:initials}</div>`;
+const who = () => `<div class="who">${avatar()}<div><b>${esc(PROFILE.name)}</b><span>${esc(PROFILE.title)}</span></div></div>`;
+const tile = p => `<a class="tile" href="#/project/${p.slug}" data-slug="${p.slug}"><span class="lab">${esc(p.title)}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14m-6-6l6 6-6 6"/></svg></span><img src="${cover(p)}" alt="${esc(p.title)}" loading="lazy"></a>`;
+
+function homeStage(){
+  setStage(PROJECTS.slice(0,5).map(p=>({src:cover(p),label:p.title,href:`#/project/${p.slug}`})),{auto:true});
+}
+
+function viewHome(){
+  homeStage();
+  return `
+  <section class="intro">
+    <div class="card">${who()}<p class="bio">${esc(PROFILE.bio)}</p><p class="bio">${esc(PROFILE.bio2)}</p></div>
+    <div class="links">
+      <a class="lnk" href="${PROFILE.behance}" target="_blank" rel="noopener">Behance ${I.be}</a>
+      <a class="lnk" href="https://wa.me/${PROFILE.whatsapp}" target="_blank" rel="noopener">WhatsApp ${I.wa}</a>
+      <a class="lnk" href="tel:${PROFILE.phone.replace(/\s/g,"")}">Call ${I.ph}</a>
+      <a class="lnk cta" href="#/contact">Contact me ${I.mail}</a>
+    </div>
+  </section>
+  <div class="bar"><h2>Selected work</h2><a href="#/projects">View all</a></div>
+  <section class="grid" id="grid">${PROJECTS.map(tile).join("")}</section>`;
+}
+
+function viewProjects(){
+  setStage([{src:cover(PROJECTS[0]),label:PROJECTS[0].title,href:`#/project/${PROJECTS[0].slug}`}]);
+  return `
+  <section class="card pagehead"><h1>Projects</h1><p>Branding, logos, social media, campaigns and print, ${PROJECTS.length} projects in total.</p></section>
+  <section class="list" id="plist">${PROJECTS.map(p=>`<a class="row" href="#/project/${p.slug}" data-slug="${p.slug}"><span class="n">${esc(p.title)}</span><span class="c">${esc(p.category)}${p.year?`<span class="y">${esc(p.year)}</span>`:""}</span></a>`).join("")}</section>`;
+}
+
+function viewProject(slug){
+  const i=PROJECTS.findIndex(p=>p.slug===slug);
+  if(i<0) return viewNotFound();
+  const p=PROJECTS[i], s=shots(p), nx=PROJECTS[(i+1)%PROJECTS.length];
+  setStage(s.map(x=>({src:x.src,label:p.title})),{auto:false});
+  return `
+  <section class="dhead">
+    <div class="card"><h1>${esc(p.title)}</h1><p>${esc(p.desc)}</p></div>
+    <dl class="meta">
+      <div><dt>Client</dt><dd>${esc(p.client)}</dd></div>
+      <div><dt>Category</dt><dd>${esc(p.category)}</dd></div>
+      ${p.year?`<div><dt>Year</dt><dd>${esc(p.year)}</dd></div>`:""}
+      <div><dt>Images</dt><dd>${s.length}</dd></div>
+    </dl>
+  </section>
+  <section class="shots">${s.map(x=>`<figure class="shot"><div class="fr"><img src="${x.src}" alt="${esc(x.caption)}" loading="lazy"></div><figcaption>${esc(x.caption)}<span>${esc(x.note)}</span></figcaption></figure>`).join("")}</section>
+  <a class="nextp" href="#/project/${nx.slug}"><div><span>Next project</span><b>${esc(nx.title)}</b></div>${I.arrow.replace('<svg','<svg width="22" height="22"')}</a>`;
+}
+
+const AB_ARROW_R = '<svg class="ar" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>';
+const AB_ARROW_UR = I.arrow.replace('<svg','<svg class="ar" aria-hidden="true"');
+const AB_ICON = s => s.replace('<svg','<svg aria-hidden="true"');
+const AB_SW = {"Adobe Photoshop":"Ps","Adobe Illustrator":"Ai","Adobe After Effects":"Ae","Adobe Premiere Pro":"Pr","Autodesk SketchBook":"Sb"};
+const AB_TILT = [-2,1.5,-1,2,-1.5,1,-2,1.5,-1];
+const AB_PEN = 40; // pencil length from its tip point to the top of the eraser
+let abCleanup = null;
+
+function viewAbout(){
+  setStage([0,1,2].map(v=>({src:cover(PROJECTS[v]),label:PROJECTS[v].title,href:`#/project/${PROJECTS[v].slug}`})),{auto:true});
+  setTimeout(bindAbout);
+  const tel = PROFILE.phone.replace(/\s/g,"");
+  const jobs = EXPERIENCE.map((e,i)=>{
+    const yr = (e.when.match(/\d{4}/)||[""])[0];
+    const head = yr ? `<div class="ab-y">${yr}</div><div class="ab-ym">${esc(e.when)}</div>` : "";
+    const body = `<div style="display:flex;align-items:center;gap:10px"><span class="ab-lo">${esc(e.org[0])}</span><div><div style="font-size:15.5px;font-weight:600;line-height:1.2">${esc(e.role)}</div><div class="ab-mu" style="font-size:13px">${esc(e.org)}</div></div></div>
+          <ul class="ab-bl">${e.points.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`;
+    return `<div class="ab-job"><div>${head}</div><div><div class="ab-dt${i===0?" now":""}"></div></div>
+        <div class="ab-jc${i===EXPERIENCE.length-1?" last":""}">${i===0?`<div class="ab-cur">${body}</div>`:body}</div></div>`;
+  }).join("\n      ");
+  return `
+<div class="ab-wr" id="ab-wr">
+  <div class="ab-g2 top ab-sec">
+    <div class="ab-pc">
+      <div class="ab-back"></div>
+      <div class="ab-card ab-post" style="min-height:220px;display:flex;flex-direction:column;justify-content:space-between">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="width:46px;height:46px;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font-size:15px;font-weight:600;flex:none">${initials}</div>
+          <div><div class="ab-sf" style="font-size:24px;line-height:1">${esc(PROFILE.name)}</div><div class="ab-mu" style="font-size:13px;margin-top:3px">${esc(PROFILE.title)}</div></div>
+        </div>
+        <p style="margin:28px 0 0;font-size:15px;line-height:1.6;max-width:46ch">Graphic designer with nearly 2 years of experience across marketing, branding, and medical and wellness brands. I care about clear concepts, consistent brands and files that print right the first time.</p>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <a class="ab-tk" href="mailto:${PROFILE.email}" style="transition-delay:.15s">${AB_ICON(I.mail)}${esc(PROFILE.email)}${AB_ARROW_UR}</a>
+      <a class="ab-tk" href="tel:${tel}" style="transition-delay:.25s">${AB_ICON(I.ph)}${esc(PROFILE.phone)}${AB_ARROW_UR}</a>
+      <a class="ab-tk" href="${PROFILE.behance}" target="_blank" rel="noopener" style="transition-delay:.35s">${AB_ICON(I.be)}Behance${AB_ARROW_UR}</a>
+      <a class="ab-tk cta" href="#/contact" style="margin-top:auto;transition-delay:.45s">${AB_ICON(I.mail)}Contact me${AB_ARROW_R}</a>
+    </div>
+  </div>
+
+  <div class="ab-card r14 ab-sec" style="padding:24px 22px 18px">
+    <h2 class="ab-h">Experience</h2>
+    <div style="position:relative" id="ab-tl">
+      <svg class="ab-road" id="ab-road" width="26" aria-hidden="true"><path id="ab-rp" fill="none" style="stroke:var(--ink)" stroke-width="1.6" stroke-linecap="round"/><g id="ab-pencil" style="opacity:0"><path d="M-4 0 L4 0 L0 9 Z" style="fill:#f3d9b1;stroke:var(--ink)" stroke-width="1"/><path d="M-1.5 6 L1.5 6 L0 9 Z" style="fill:var(--ink)"/><rect x="-4" y="-28" width="8" height="28" style="fill:var(--btn);stroke:var(--ink)" stroke-width="1"/><rect x="-4" y="-34" width="8" height="6" style="fill:#d9a3ae;stroke:var(--ink)" stroke-width="1"/><rect x="-4" y="-40" width="8" height="6" rx="2" style="fill:#f1bcc6;stroke:var(--ink)" stroke-width="1"/></g></svg>
+      ${jobs}
+    </div>
+  </div>
+
+  <div class="ab-pc ab-sec">
+    <div class="ab-back b2"></div>
+    <div class="ab-card ab-post ab-edu">
+      <svg class="ab-seal" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="ab-sc" d="M50,50 m-34,0 a34,34 0 1,1 68,0 a34,34 0 1,1 -68,0"/></defs><path d="M50 4 l6 8 10-3 3 10 10 2-2 10 8 7-6 8 4 10-10 3-1 10-10-1-6 9-8-6-9 5-4-10-10-1 1-10-9-5 6-8-5-9 9-5-1-10 10 0 3-10 10 3z" fill="#f1bcc6"/><circle cx="50" cy="50" r="38" fill="none" stroke="#262222" stroke-width="1"/><text font-family="Urbanist,sans-serif" font-size="7.5" font-weight="700" letter-spacing="1.8" fill="#262222"><textPath href="#ab-sc">EXCELLENT ✦ WITH ✦ HONORS ✦</textPath></text><text x="50" y="57" text-anchor="middle" font-family="Instrument Serif,serif" font-size="22" font-style="italic" fill="#be4760">2024</text></svg>
+      <h2 class="ab-h">Education</h2>
+      <div style="font-size:15.5px;font-weight:600">Bachelor's in Graphic Design &amp; Advertising</div>
+      <div style="font-size:13px;color:#d9a3ae;margin-top:3px">Higher Institute of Applied Arts, 6th of October · Excellent with Honors</div>
+      <div class="ab-sf" style="font-size:22px;font-style:italic;color:#f1bcc6;margin-top:10px">2024</div>
+    </div>
+  </div>
+
+  <div class="ab-card r14 ab-sec">
+    <h2 class="ab-h">Skills</h2>
+    <div>${SKILLS.map((s,i)=>`<span class="ab-tag" style="--r:${AB_TILT[i%AB_TILT.length]}deg;transition-delay:${(i*.06).toFixed(2)}s">${esc(s)}</span>`).join("")}</div>
+  </div>
+
+  <div class="ab-g2 bot ab-sec">
+    <div class="ab-card r14">
+      <h2 class="ab-h">Software</h2>
+      ${SOFTWARE.map(([n,l],i)=>`<div class="ab-sw" style="transition-delay:${(.05+i*.07).toFixed(2)}s"><span class="ab-ic">${AB_SW[n]||esc(n.slice(0,2))}</span><span>${esc(n)}</span><span class="ab-lv">${esc(l)}</span></div>`).join("\n      ")}
+    </div>
+    <div class="ab-card r14 ab-langs">
+      <h2 class="ab-h">Languages</h2>
+      <div class="ab-lgs">
+        ${LANGS.map(([n,l],i)=>`<div class="ab-ls" style="--r:${i?"1.2":"-1.5"}deg;transition-delay:${i?".4":".2"}s"><div><div class="ab-ln">${esc(n)}</div><div class="ab-lvl">${esc(l)}</div></div></div>`).join("\n        ")}
+      </div>
+    </div>
+  </div>
+</div>`;
+}
+
+function bindAbout(){
+  const wr=$("#ab-wr"); if(!wr) return;
+  if(abCleanup){ abCleanup(); abCleanup=null; }
+  const RM=matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const tl=$("#ab-tl"), road=$("#ab-road"), rp=$("#ab-rp"), pen=$("#ab-pencil");
+  const secs=[...wr.querySelectorAll(".ab-sec")], jcs=[...tl.querySelectorAll(".ab-jc")], dts=[...tl.querySelectorAll(".ab-dt")];
+  let ys=[], L=0, state="idle", alive=true, raf=0, rz=0;
+  const timers=[];
+  // Line geometry from layout boxes (offsets ignore the entry/dot animation transforms).
+  // The pencil hangs AB_PEN px below the line end, so its body ends where the last entry's content ends.
+  const layout=()=>{
+    ys=dts.map(d=>d.offsetTop+d.offsetHeight/2);
+    const lj=jcs[jcs.length-1], pb=parseFloat(getComputedStyle(lj).paddingBottom)||0;
+    const end=Math.max(ys[ys.length-1]+24, lj.offsetTop+lj.offsetHeight-pb-AB_PEN);
+    const col=dts[0].parentElement, x=col.offsetWidth/2;
+    road.style.left=col.offsetLeft+"px"; road.setAttribute("width",col.offsetWidth); road.setAttribute("height",end+10);
+    let d=`M${x} ${ys[0]}`, py=ys[0];
+    [...ys.slice(1),end].forEach((y,i)=>{const m=(py+y)/2,w=i%2?-5:5; d+=` Q${x+w} ${m} ${x} ${y}`; py=y;});
+    rp.setAttribute("d",d); L=rp.getTotalLength();
+  };
+  const penAt=len=>{const p=rp.getPointAtLength(len); pen.setAttribute("transform",`translate(${p.x},${p.y}) rotate(180)`); return p;};
+  const finish=()=>{state="done"; rp.style.strokeDasharray="none"; rp.style.strokeDashoffset="0"; pen.style.opacity=1; penAt(L);};
+  const draw=()=>{
+    if(!alive||state!=="idle") return;
+    state="run"; pen.style.opacity=1;
+    const t0=performance.now(), D=2000, done=[];
+    const f=t=>{
+      if(!alive) return;
+      const k=Math.min(1,(t-t0)/D), e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;
+      rp.style.strokeDasharray=L; rp.style.strokeDashoffset=L*(1-e);
+      const p=penAt(L*e);
+      ys.forEach((y,i)=>{ if(!done[i]&&p.y>=y-2){ done[i]=1; dts[i].classList.add("on"); jcs[i].classList.add("on"); } });
+      if(k<1) raf=requestAnimationFrame(f); else finish();
+    };
+    raf=requestAnimationFrame(f);
+  };
+  layout();
+  let io=null;
+  if(RM){
+    secs.forEach(s=>s.classList.add("on")); jcs.forEach(j=>j.classList.add("on")); dts.forEach(d=>d.classList.add("on")); finish();
+  } else {
+    rp.style.strokeDasharray=L; rp.style.strokeDashoffset=L;
+    io=new IntersectionObserver(es=>es.forEach(en=>{
+      if(!en.isIntersecting) return;
+      io.unobserve(en.target); en.target.classList.add("on");
+      if(en.target===secs[1]) timers.push(setTimeout(draw,250));
+    }),{threshold:.15});
+    secs.forEach(s=>io.observe(s));
+  }
+  const onResize=()=>{ cancelAnimationFrame(rz); rz=requestAnimationFrame(()=>{
+    if(!alive) return; layout();
+    if(state==="done") finish(); else if(state==="idle"){ rp.style.strokeDasharray=L; rp.style.strokeDashoffset=L; }
+  }); };
+  window.addEventListener("resize",onResize);
+  if(document.fonts) document.fonts.ready.then(onResize);
+  abCleanup=()=>{ alive=false; if(io) io.disconnect(); cancelAnimationFrame(raf); cancelAnimationFrame(rz); timers.forEach(clearTimeout); window.removeEventListener("resize",onResize); };
+}
+
+const CI = {
+  wa:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5l1.3-4.3A8.6 8.6 0 1 1 8 19.3z"/><path d="M9.2 8.6c-.1 2.9 3.3 6.3 6.2 6.2l.9-1.3-1.8-1-.9.7a4.4 4.4 0 0 1-2-2l.7-.9-1-1.8z"/></svg>',
+  ph:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>',
+  mail:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 10c0 5.5-7 11.5-7 11.5S5 15.5 5 10a7 7 0 0 1 14 0z"/><circle cx="12" cy="10" r="2.6"/></svg>',
+  go:'<svg class="go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M5 12h14m-6-6l6 6-6 6"/></svg>'
+};
+const TYPES = ["Branding","Social media","Print","Editorial","App design","Other"];
+
+function viewContact(){
+  setStage(PROJECTS.map(p=>({src:cover(p),label:p.title,href:`#/project/${p.slug}`})),{auto:true});
+  const tel = PROFILE.phone.replace(/\s/g,"");
+  const card = (icon,k,v,href,ext,extra="") => `<div class="cc lk"><span class="ic">${icon}</span>${CI.go}
+    <div class="ccb"><div><span class="k">${k}</span><a class="cl v" href="${href}"${ext?' target="_blank" rel="noopener"':''}>${esc(v)}</a></div>${extra}</div></div>`;
+  setTimeout(bindContact);
+  return `
+  <section class="card pagehead">
+    <span class="badge"><i></i>Available for freelance and full-time work</span>
+    <h1>Let's work together</h1>
+    <p>Branding, social media, print and editorial design. Based in Cairo, working with clients everywhere.</p>
+  </section>
+  <section class="cgrid" aria-label="Contact details">
+    ${card(CI.mail,"Email",PROFILE.email,`mailto:${PROFILE.email}`,false,`<button class="cpy" type="button" id="cpy" aria-live="polite">Copy</button>`)}
+    ${card(CI.wa,"WhatsApp",PROFILE.phone,`https://wa.me/${PROFILE.whatsapp}`,true)}
+    ${card(CI.ph,"Phone",PROFILE.phone,`tel:${tel}`,false)}
+    ${card(I.be,"Behance",PROFILE.behance.replace(/^https?:\/\/(www\.)?/,""),PROFILE.behance,true)}
+    <div class="cc wide"><span class="ic">${CI.pin}</span><div><span class="k">Location</span><span class="v">${esc(PROFILE.location)}</span><span class="v2">Open to remote projects</span></div></div>
+  </section>
+  <section class="sec"><h2>Send a message</h2>
+    <form class="mform" id="mform" novalidate>
+      <div class="f"><label for="f-name">Name</label><input class="fi" id="f-name" name="name" autocomplete="name" aria-describedby="e-name"><p class="ferr" id="e-name"></p></div>
+      <div class="f"><label for="f-email">Email</label><input class="fi" id="f-email" name="email" type="email" autocomplete="email" aria-describedby="e-email"><p class="ferr" id="e-email"></p></div>
+      <div class="f full"><label for="f-type">Project type</label><div class="sel"><select class="fi" id="f-type" name="type" aria-describedby="e-type"><option value="">Choose one</option>${TYPES.map(t=>`<option>${t}</option>`).join("")}</select></div><p class="ferr" id="e-type"></p></div>
+      <div class="f full"><label for="f-msg">Message</label><textarea class="fi" id="f-msg" name="message" rows="5" aria-describedby="e-msg"></textarea><p class="ferr" id="e-msg"></p></div>
+      <div class="full"><button class="lnk cta" type="submit">Send message ${I.arrow}</button></div>
+    </form>
+  </section>`;
+}
+function bindContact(){
+  const b=$("#cpy"), f=$("#mform"); if(!b||!f) return;
+  let t=null;
+  b.onclick=async()=>{
+    try{ await navigator.clipboard.writeText(PROFILE.email); }
+    catch(e){ const a=document.createElement("textarea"); a.value=PROFILE.email; document.body.appendChild(a); a.select(); try{document.execCommand("copy")}catch(_){} a.remove(); }
+    b.textContent="Copied"; clearTimeout(t); t=setTimeout(()=>b.textContent="Copy",2000);
+  };
+  const rules = {
+    name: v => v ? "" : "Enter your name",
+    email: v => !v ? "Enter your email address" : /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? "" : "Enter a valid email address",
+    type: v => v ? "" : "Choose a project type",
+    message: v => v ? "" : "Write a short message about your project"
+  };
+  const ids = {name:"name",email:"email",type:"type",message:"msg"};
+  const check = n => { const el=f.elements[n], msg=rules[n](el.value.trim());
+    $("#e-"+ids[n]).textContent=msg; msg ? el.setAttribute("aria-invalid","true") : el.removeAttribute("aria-invalid"); return !msg; };
+  Object.keys(rules).forEach(n=>{ const el=f.elements[n]; el.addEventListener(el.tagName==="SELECT"?"change":"input",()=>{ if(el.hasAttribute("aria-invalid")) check(n); }); });
+  f.onsubmit = e => {
+    e.preventDefault();
+    const bad = Object.keys(rules).filter(n=>!check(n));
+    if(bad.length){ f.elements[bad[0]].focus(); return; }
+    const v = n => f.elements[n].value.trim();
+    const subject = `New project: ${v("type")} — ${v("name")}`;
+    const body = `Name: ${v("name")}\nEmail: ${v("email")}\nProject type: ${v("type")}\n\n${v("message")}`;
+    const a=document.createElement("a");
+    a.href=`mailto:${PROFILE.email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    a.click();
+  };
+}
+
+function viewNotFound(){
+  homeStage();
+  return `<section class="card pagehead"><h1>This page doesn't exist</h1><p>The link may be old. <a href="#/" style="border-bottom:1px solid">Go to the home page</a> to see all projects.</p></section>`;
+}
+
+function footer(){
+  $("#foot").innerHTML = `
+    <div class="fcta">
+      <div><h2>Have a project in mind?</h2><p>Let's make something people remember.</p></div>
+      <a class="fbtn" href="#/contact">Get in touch ${CI.go.replace(' class="go"','')}</a>
+    </div>
+    <div class="fline" role="presentation"></div>
+    <div class="frow">
+      <div class="who"><div class="avatar ficon"><img src="assets/icon/sara-icon.svg" alt=""></div><div><b>${esc(PROFILE.name)}</b><span>${esc(PROFILE.title)}</span></div></div>
+      <nav class="fnav" aria-label="Footer"><a href="#/">Home</a><a href="#/projects">Projects</a><a href="#/about">About</a><a href="#/contact">Contact</a></nav>
+      <div class="fsoc">
+        <a href="mailto:${PROFILE.email}" aria-label="Email ${esc(PROFILE.email)}">${I.mail}</a>
+        <a href="https://wa.me/${PROFILE.whatsapp}" target="_blank" rel="noopener" aria-label="WhatsApp">${CI.wa}</a>
+        <a href="${PROFILE.behance}" target="_blank" rel="noopener" aria-label="Behance">${I.be}</a>
+      </div>
+    </div>
+    <div class="fbot">
+      <span>© ${new Date().getFullYear()} ${esc(PROFILE.name)}. ${esc(PROFILE.location)}</span>
+      <button class="totop" type="button" id="totop">Back to top <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M12 19V5m-6 6l6-6 6 6"/></svg></button>
+    </div>`;
+  $("#totop").onclick=()=>window.scrollTo({top:0,behavior:matchMedia("(prefers-reduced-motion: reduce)").matches?"instant":"smooth"});
+}
+
+/* hover: preview project in the stage */
+let restore=null;
+document.addEventListener("pointerover",e=>{
+  const el=e.target.closest("[data-slug]"); if(!el || matchMedia("(hover:none)").matches) return;
+  const p=PROJECTS.find(x=>x.slug===el.dataset.slug); if(!p) return;
+  if(slides.length===1 && slides[0].src===cover(p)) return;
+  peek(cover(p),p.title,`#/project/${p.slug}`);
+  restore = location.hash.startsWith("#/projects") ? null : homeStage;
+});
+document.addEventListener("pointerout",e=>{
+  const el=e.target.closest("[data-slug]"); if(!el || el.contains(e.relatedTarget)) return;
+  if(restore && !(e.relatedTarget && e.relatedTarget.closest && e.relatedTarget.closest("[data-slug]"))){ restore(); restore=null; }
+});
+
+/* router */
+function route(){
+  const h=location.hash.replace(/^#/,"")||"/";
+  if(abCleanup){ abCleanup(); abCleanup=null; }
+  let html;
+  if(h==="/"||h==="") html=viewHome();
+  else if(h==="/projects") html=viewProjects();
+  else if(h.startsWith("/project/")) html=viewProject(decodeURIComponent(h.slice(9)));
+  else if(h==="/about") html=viewAbout();
+  else if(h==="/contact") html=viewContact();
+  else html=viewNotFound();
+  const v=$("#view"); v.classList.remove("enter"); v.innerHTML=html; void v.offsetWidth; v.classList.add("enter");
+  document.querySelectorAll(".nav a.l").forEach(a=>{
+    const t=a.getAttribute("href").slice(1);
+    const on = t==="/" ? (h==="/") : h.startsWith(t);
+    on ? a.setAttribute("aria-current","page") : a.removeAttribute("aria-current");
+  });
+  window.scrollTo({top:0,behavior:"instant"});
+}
+
+/* theme toggle */
+(function(){
+  let saved=null; try{saved=localStorage.getItem("theme")}catch(e){}
+  if(saved) document.documentElement.dataset.theme=saved;
+  $("#theme").onclick=()=>{
+    const dark = document.documentElement.dataset.theme ? document.documentElement.dataset.theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+    const next = dark?"light":"dark";
+    document.documentElement.dataset.theme=next;
+    try{localStorage.setItem("theme",next)}catch(e){}
+  };
+})();
+
+window.addEventListener("hashchange",route);
+footer(); route();
+</script>
+</body>
+</html>
